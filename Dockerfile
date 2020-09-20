@@ -15,24 +15,26 @@ ENV IP_URLS \
 
 EXPOSE 1080
 
-RUN apk add curl zsh openvpn unzip wget busybox-extras shadow tini tzdata pwgen
+RUN apk add curl zsh openvpn unzip tini pwgen
 
 # Duplicated openvpn and privoxy to only install updates
 RUN apk --update --no-cache add openvpn dante-server && \
     rm -rf /var/cache/apk/*
 
 RUN mkdir /surfshark && cd /surfshark && \
-    wget -q -O configurations https://my.surfshark.com/vpn/api/v1/server/configurations && \
-    unzip configurations > /dev/null && rm configurations
+    curl -s https://my.surfshark.com/vpn/api/v1/server/configurations > configurations.zip && \
+    unzip configurations.zip > /dev/null && rm configurations.zip
 
 RUN mkdir /nordpvn && cd /nordpvn && \
-    wget -q -O ovpn.zip https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip && \
+    curl -s https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip > ovpn.zip && \
     unzip ovpn.zip > /dev/null && rm ovpn.zip
 
 RUN mkdir /scripts
 COPY /scripts/* /scripts/
 RUN chmod +x /scripts/*
-COPY sockd.conf /etc/
 WORKDIR /scripts
+
+COPY sockd.conf /etc/
+
 ENTRYPOINT ["/sbin/tini", "--", "/scripts/main.sh"]
 HEALTHCHECK --timeout=10s --start-period=30s CMD /sbin/tini -- /scripts/health.sh
