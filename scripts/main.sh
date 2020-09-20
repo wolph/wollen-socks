@@ -5,22 +5,20 @@
 
 # Generate random passwords if not given through environment
 ROOT_PASS=${ROOT_PASS:-$(pwgen -s 32 1)}
-echo "root:$ROOT_PASS" | chpasswd
 SOCKD_PASS=${SOCKD_PASS:-$(pwgen -s 32 1)}
+
+echo "root:$ROOT_PASS" | chpasswd
 echo "sockd:$SOCKD_PASS" | chpasswd
 echo "root password: $ROOT_PASS"
 echo "sockd password: $SOCKD_PASS"
 echo "root proxy url: socks5h://root:$ROOT_PASS@127.0.0.1:1080"
 echo "sockd proxy url: socks5h://sockd:$SOCKD_PASS@127.0.0.1:1080"
+echo "config: $VPN_FILE"
 
 # Compatibility with older format
 VPN_USER=${VPN_USER:-$USER}
 VPN_PASS=${VPN_PASS:-$PASSWORD}
-
-echo "user: $VPN_USER :: $VPN_PASS"
-
 OPENVPN_ARGS=${OPENVPN_ARGS:-}
-echo "shell: $SHELL"
 
 if [ "$SHELL" ]; then
   OPENVPN_ARGS="${OPENVPN_ARGS} --daemon"
