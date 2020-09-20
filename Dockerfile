@@ -1,7 +1,5 @@
 FROM alpine
 
-ENV VPN_USER username
-ENV VPN_PASS password
 ENV VPN_FILE /surfshark/nl-ams.prod.surfshark.com_udp.ovpn
 ENV IP_URLS \
     https://ifconfig.me/ip \

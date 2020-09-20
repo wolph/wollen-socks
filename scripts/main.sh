@@ -13,6 +13,19 @@ echo "sockd password: $SOCKD_PASS"
 echo "root proxy url: socks5h://root:$ROOT_PASS@127.0.0.1:1080"
 echo "sockd proxy url: socks5h://sockd:$SOCKD_PASS@127.0.0.1:1080"
 
+# Compatibility with older format
+VPN_USER=${VPN_USER:-$USER}
+VPN_PASS=${VPN_PASS:-$PASSWORD}
+
+echo "user: $VPN_USER :: $VPN_PASS"
+
+OPENVPN_ARGS=${OPENVPN_ARGS:-}
+echo "shell: $SHELL"
+
+if [ "$SHELL" ]; then
+  OPENVPN_ARGS="${OPENVPN_ARGS} --daemon"
+fi
+
 # Create OpenVPN files
 mkdir -p /dev/net
 mknod /dev/net/tun c 10 200
@@ -33,4 +46,9 @@ openvpn \
   --ping 10 \
   --ping-restart 10 \
   --persist-tun \
-  --auth-user-pass <(echo -e "$VPN_USER\n$VPN_PASS")
+  --auth-user-pass <(echo -e "$VPN_USER\n$VPN_PASS") \
+  $OPENVPN_ARGS
+
+if [ "$SHELL" ]; then
+  exec zsh
+fi
