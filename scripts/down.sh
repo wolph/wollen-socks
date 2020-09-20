@@ -3,4 +3,4 @@
 echo "down"
 /usr/bin/killall sockd
 rm /up
-cp /etc/resolv.conf{.backup,}
+cp -f /etc/resolv.conf{.backup,}
