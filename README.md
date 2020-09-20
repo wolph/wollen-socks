@@ -22,4 +22,6 @@ docker run
 
 After that you can access the server through any client that supports socks:
 
-    curl -vvv -x 'socks5h://sockd:T2ufrTZsOnpTE3oNW81OHpkQRehd0Sc4@127.0.0.1:1080' ifconfig.me 
+    curl -vvv -x 'socks5h://sockd:<password>@127.0.0.1:1080' ifconfig.me 
+
+The password can be specified through the `SOCKD_PASSWORD` value or will be automatically generated and shown in the logs.
