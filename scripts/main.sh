@@ -3,16 +3,7 @@
 # Fetch base IP before initializing OpenVPN
 . ./get_ip.sh
 
-# Generate random passwords if not given through environment
-ROOT_PASS=${ROOT_PASS:-$(pwgen -s 32 1)}
-SOCKD_PASS=${SOCKD_PASS:-$(pwgen -s 32 1)}
-
-echo "root:$ROOT_PASS" | chpasswd
-echo "sockd:$SOCKD_PASS" | chpasswd
-echo "root password: $ROOT_PASS"
-echo "sockd password: $SOCKD_PASS"
-echo "root proxy url: socks5h://root:$ROOT_PASS@127.0.0.1:1080"
-echo "sockd proxy url: socks5h://sockd:$SOCKD_PASS@127.0.0.1:1080"
+echo "proxy url: socks5h://127.0.0.1:1080"
 echo "config: $VPN_FILE"
 
 # Compatibility with older format
