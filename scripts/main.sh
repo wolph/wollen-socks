@@ -4,12 +4,14 @@
 . ./get_ip.sh
 
 # Generate random passwords if not given through environment
-ROOT_PASSWORD=${ROOT_PASSWORD:-$(pwgen -s 32 1)}
-echo "root:$ROOT_PASSWORD" | chpasswd
-SOCKD_PASSWORD=${SOCKD_PASSWORD:-$(pwgen -s 32 1)}
-echo "sockd:$SOCKD_PASSWORD" | chpasswd
-echo "root password: $ROOT_PASSWORD"
-echo "sockd password: $SOCKD_PASSWORD"
+ROOT_PASS=${ROOT_PASS:-$(pwgen -s 32 1)}
+echo "root:$ROOT_PASS" | chpasswd
+SOCKD_PASS=${SOCKD_PASS:-$(pwgen -s 32 1)}
+echo "sockd:$SOCKD_PASS" | chpasswd
+echo "root password: $ROOT_PASS"
+echo "sockd password: $SOCKD_PASS"
+echo "root proxy url: socks5h://root:$ROOT_PASS@127.0.0.1:1080"
+echo "sockd proxy url: socks5h://sockd:$SOCKD_PASS@127.0.0.1:1080"
 
 # Create OpenVPN files
 mkdir -p /dev/net
