@@ -10,14 +10,14 @@ To build:
 To run:
 
 ```
-docker run
--p 1080:1080
---env VPN_USER=...
---env VPN_PASS=...
---env VPN_FILE=/surfshark/nl-ams.prod.surfshark.com_udp.ovpn
---env SOCKD_PASS=...
---cap-add NET_ADMIN
-<image_tag> 
+docker run \
+  -p 1080:1080
+  --env VPN_USER=... \
+  --env VPN_PASS=... \
+  --env VPN_FILE=/surfshark/nl-ams.prod.surfshark.com_udp.ovpn \
+  --env SOCKD_PASS=... \
+  --cap-add NET_ADMIN \
+  wolph/wollen-socks
 ```
 
 After that you can access the server through any client that supports socks:
