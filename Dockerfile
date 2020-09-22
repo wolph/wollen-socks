@@ -23,9 +23,9 @@ RUN mkdir /surfshark && cd /surfshark && \
     curl -s https://my.surfshark.com/vpn/api/v1/server/configurations > configurations.zip && \
     unzip configurations.zip > /dev/null && rm configurations.zip
 
-RUN mkdir /nordpvn && cd /nordpvn && \
+RUN mkdir /nordvpn && cd /nordvpn && \
     curl -s https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip > ovpn.zip && \
-    unzip ovpn.zip > /dev/null && rm ovpn.zip
+    unzip -j ovpn.zip > /dev/null && rm ovpn.zip
 
 RUN mkdir /scripts
 COPY /scripts/* /scripts/
