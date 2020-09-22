@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-
+set -v
 echo "down"
 /usr/bin/killall sockd
 rm /up

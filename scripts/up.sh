@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-
+set -v
 echo "up"
 echo > /etc/resolv.conf
 echo nameserver 8.8.8.8 >> /etc/resolv.conf
