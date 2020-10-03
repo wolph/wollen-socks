@@ -1,5 +1,8 @@
 FROM alpine
 
+# Automatically kill after 1 hour, set to 0 to disable.
+# Supports s(econds), m(inutes), h(ours) and d(ays)
+ENV TIMEOUT 18h
 ENV VPN_FILE /surfshark/nl-ams.prod.surfshark.com_udp.ovpn
 ENV IP_URLS \
     https://ifconfig.me/ip \

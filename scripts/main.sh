@@ -24,7 +24,7 @@ cp /etc/resolv.conf{,.backup}
 
 # Start openvpn and echo show the command
 set -v
-openvpn \
+timeout $TIMEOUT openvpn \
   --config "$VPN_FILE" \
   --script-security 2 \
   --up /scripts/up.sh \
