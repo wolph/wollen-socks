@@ -5,12 +5,6 @@ Docker Hub link: https://hub.docker.com/repository/docker/wolph/wollen-socks
 
 ## Basic usage:
 
-To build:
-
-    docker build -t <image_tag> .
-    
-To run:
-
 ```
 docker run \
   -p 1080:1080
