@@ -20,7 +20,7 @@ get_ip(){
   I=$[$RANDOM % $#IP_URLS + 1]
 
   # Get random url from the list of urls
-  curl -s "${IP_URLS[$I]}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  timeout 10s curl --connect-timeout 10 -s "${IP_URLS[$I]}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 if [ ! -f /base_ip ]; then
