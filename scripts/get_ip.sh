@@ -20,7 +20,7 @@ get_ip(){
   I=$[$RANDOM % $#IP_URLS + 1]
 
   # Get random url from the list of urls
-  timeout 10s curl --connect-timeout 10 -s "${IP_URLS[$I]}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  timeout 10s curl 10 -s "${IP_URLS[$I]}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 if [ ! -f /base_ip ]; then
@@ -31,5 +31,5 @@ else
   export BASE_IP=$(head -n 1 /base_ip)
 fi
 
-export HTTP_PROXY=socks5h://localhost:8118
-export HTTPS_PROXY=socks5h://localhost:8118
+export HTTP_PROXY=socks5h://127.0.0.1:1080
+export HTTPS_PROXY=socks5h://127.0.0.1:1080
