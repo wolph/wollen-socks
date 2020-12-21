@@ -22,6 +22,8 @@ mknod /dev/net/tun c 10 200
 # Backup the resolv.conf to restore when the connection goes down
 cp /etc/resolv.conf{,.backup}
 
+echo "IP: $(get_ip)"
+
 # Start openvpn and echo show the command
 set -v
 timeout $TIMEOUT openvpn \
