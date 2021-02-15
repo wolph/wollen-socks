@@ -20,16 +20,24 @@ get_ip(){
   I=$[$RANDOM % $#IP_URLS + 1]
 
   # Get random url from the list of urls
-  timeout 10s curl 10 -s "${IP_URLS[$I]}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  IP_URL="${IP_URLS[$I]}"
+
+  curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
-if [ ! -f /base_ip ]; then
-  export BASE_IP="$(get_ip)"
-  echo "$BASE_IP" > /base_ip
-  echo "base ip: $BASE_IP"
-else
-  export BASE_IP=$(head -n 1 /base_ip)
+ip=$(get_ip -s)
+if [ -n "$ip" ]; then
+    echo "$ip"
+    exit
 fi
 
-export HTTP_PROXY=socks5h://127.0.0.1:1080
-export HTTPS_PROXY=socks5h://127.0.0.1:1080
+while true; do
+  >&2 date
+  ip=$(get_ip)
+  if [ -n "$ip" ]; then
+    echo "$ip"
+      exit
+    else
+      sleep 1
+  fi
+done

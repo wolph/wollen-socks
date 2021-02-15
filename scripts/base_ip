@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+if [ -f /base_ip ]; then
+  BASE_IP=$(head -n 1 /base_ip)
+else
+  BASE_IP=$(get_ip)
+  echo "$BASE_IP" > /base_ip
+fi
+
+echo $BASE_IP

@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-. ./get_ip.sh
-IP="$(get_ip)"
+IP=$(/scripts/get_ip)
+BASE_IP=$(cat /base_ip)
 
 if [ "$IP" = "$BASE_IP" ]; then
   echo "VPN not working, got ip: $IP"
