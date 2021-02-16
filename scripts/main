@@ -53,6 +53,8 @@ while [ ! -f /up ]; do
   sleep 1
 done
 
+echo -n "Up at: "
+cat /up
 echo "vpn ip: $(get_ip)"
 
 exec zsh

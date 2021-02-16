@@ -42,4 +42,4 @@ WORKDIR /scripts
 COPY sockd.conf /etc/
 
 ENTRYPOINT ["/sbin/tini", "--", "/scripts/main"]
-HEALTHCHECK --timeout=5s --start-period=30s CMD /scripts/health
+HEALTHCHECK --timeout=5s --interval=30s --start-period=30s --retries=3 CMD /scripts/health
