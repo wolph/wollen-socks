@@ -8,7 +8,6 @@ base_ip
 # Compatibility with older format
 VPN_USER=${VPN_USER:-$USER}
 VPN_PASS=${VPN_PASS:-$PASSWORD}
-INTERFACE=${INTERFACE:$(ip -o -4 route show to default | awk '{print $5}')}
 
 if [ "$SHELL" ]; then
   OPENVPN_ARGS="--daemon"
@@ -27,6 +26,11 @@ echo "openvpn args: $OPENVPN_ARGS"
 
 export HTTP_PROXY=socks5h://127.0.0.1:1080
 export HTTPS_PROXY=socks5h://127.0.0.1:1080
+
+# Openvpn scripts can't access the environment variables, so save them to a file
+echo "PRIVATE_NET=$PRIVATE_NET" > /env
+
+/sbin/ip -o -4 route show to default > /default_route
 
 # Start openvpn and echo show the command
 set -v

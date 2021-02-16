@@ -15,6 +15,9 @@ ENV IP_URLS=" \
     https://ipinfo.io/ip"
 ENV PATH="/scripts:${PATH}"
 
+# Default kubernetes network
+ENV PRIVATE_NET=10.192.0.0/10
+
 EXPOSE 1080
 
 RUN apk add curl zsh openvpn unzip tini pwgen busybox-extras

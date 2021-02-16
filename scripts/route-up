@@ -1,7 +1,15 @@
 #!/usr/bin/env zsh
 set -v
 echo "route up"
-gateway=$(/sbin/ip route | grep default | awk '{print $3}')
-/sbin/ip route add 10.192.0.0/10 via $gateway dev eth0
+
+default_route=($(cat /default_route))
+gateway=${default_route[3]}
+interface=${default_route[5]}
+
+export $(cat /env | xargs)
+
+/sbin/ip -o -4 route add $PRIVATE_NET via $gateway dev $interface
+echo $route_cmd add $PRIVATE_NET via $gateway dev $interface >> log
+
 /usr/sbin/sockd -D
 date > /up
