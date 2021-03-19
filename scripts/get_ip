@@ -1,6 +1,14 @@
 #!/usr/bin/env zsh
 setopt shwordsplit
 
+LOCKFILE=/get_ip.lock
+if [ -e $LOCKFILE ] && kill -0 $(cat $LOCKFILE); then
+  exit 1
+fi
+
+trap "rm -f $LOCKFILE; exit" INT TERM EXIT
+echo $$ > $LOCKFILE
+
 IP_URLS=${IP_URLS:- \
     https://ifconfig.me/ip \
     http://ip1.dynupdate.no-ip.com:8245 \
@@ -25,7 +33,7 @@ get_ip(){
   IP_URL="${IP_URL/INTERNAL_IP/$(hostname -i)}"
   IP_URL="${IP_URL/HOSTNAME/$(hostname)}"
 
-  flock -n /get_ip.lock curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' || exit 1
+  curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 ip=$(get_ip -s)
@@ -44,3 +52,5 @@ while true; do
       sleep 1
   fi
 done
+
+rm -f $LOCKFILE
