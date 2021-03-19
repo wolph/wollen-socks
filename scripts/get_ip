@@ -25,9 +25,7 @@ get_ip(){
   IP_URL="${IP_URL/INTERNAL_IP/$(hostname -i)}"
   IP_URL="${IP_URL/HOSTNAME/$(hostname)}"
 
-  (flock -n 10 || exit 1
-    curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
-  ) 10>/get_ip.lock
+  flock -n /get_ip.lock curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' || exit 1
 }
 
 ip=$(get_ip -s)
