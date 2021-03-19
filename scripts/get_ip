@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 setopt shwordsplit
 
-flock /get_ip.lock || exit 1
-
 IP_URLS=${IP_URLS:- \
     https://ifconfig.me/ip \
     http://ip1.dynupdate.no-ip.com:8245 \
@@ -27,7 +25,9 @@ get_ip(){
   IP_URL="${IP_URL/INTERNAL_IP/$(hostname -i)}"
   IP_URL="${IP_URL/HOSTNAME/$(hostname)}"
 
-  curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  (flock -n 10 || exit 1
+    curl -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  ) 10>/get_ip.lock
 }
 
 ip=$(get_ip -s)
