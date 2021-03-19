@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 setopt shwordsplit
 
+flock /get_ip.lock || exit 1
+
 IP_URLS=${IP_URLS:- \
     https://ifconfig.me/ip \
     http://ip1.dynupdate.no-ip.com:8245 \
