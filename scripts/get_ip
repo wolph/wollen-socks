@@ -47,10 +47,9 @@ while true; do
   ip=$(get_ip)
   if [ -n "$ip" ]; then
     echo "$ip"
-      exit
-    else
-      sleep 1
+    rm -f $LOCKFILE
+    exit
+  else
+    sleep 1
   fi
 done
-
-rm -f $LOCKFILE
