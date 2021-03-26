@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+# Expand VPN_FILE pattern to list of files
+VPN_FILES=(${(@s/ /)~VPN_FILE})
+# Choose random item from the list of files
+VPN_FILE="$VPN_FILES[RANDOM % $#VPN_FILES + 1]"
 date
 echo "proxy url: socks5h://127.0.0.1:1080"
 echo "config: $VPN_FILE"
