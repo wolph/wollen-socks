@@ -29,11 +29,11 @@ get_ip(){
 
   # Get random url from the list of urls
   IP_URL="${IP_URLS[$I]}"
-  IP_URL="${IP_URL/EXTERNAL_IP/$(base_ip)}"
+  IP_URL="${IP_URL/BASE_IP/$(base_ip)}"
   IP_URL="${IP_URL/INTERNAL_IP/$(hostname -i)}"
   IP_URL="${IP_URL/HOSTNAME/$(hostname)}"
 
-  curl -k -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  curl -sS -k -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 ip=$(get_ip -s)
