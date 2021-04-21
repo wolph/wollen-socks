@@ -33,7 +33,8 @@ get_ip(){
   IP_URL="${IP_URL/INTERNAL_IP/$(hostname -i)}"
   IP_URL="${IP_URL/HOSTNAME/$(hostname)}"
 
-  curl -sS -k -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+  echo "Fetching $IP_URL" 1>&2
+  curl --no-progress-meter -k -m 10 "$@" "${IP_URL}" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 }
 
 ip=$(get_ip -s)

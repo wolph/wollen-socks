@@ -7,7 +7,8 @@ VPN_FILE="$VPN_FILES[RANDOM % $#VPN_FILES + 1]"
 date
 echo "proxy url: socks5h://127.0.0.1:1080"
 echo "config: $VPN_FILE"
-base_ip
+echo "Fetching base IP..."
+echo "base_ip: $(base_ip)"
 
 # Compatibility with older format
 VPN_USER=${VPN_USER:-$USER}
