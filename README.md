@@ -12,7 +12,7 @@ docker run \
   --env VPN_PASS=... \
   --env VPN_FILE=/surfshark/nl-ams.prod.surfshark.com_udp.ovpn \
   --cap-add NET_ADMIN \
-  wolph/wollen-socks
+  ghcr.io/wolph/wollen-socks:master
 ```
 
 After that you can access the server through any client that supports socks:
