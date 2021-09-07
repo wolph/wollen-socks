@@ -37,9 +37,19 @@ echo "PRIVATE_NET=$PRIVATE_NET" > /env
 
 /sbin/ip -o -4 route show to default > /default_route
 
-# Start openvpn and echo show the command
+if [ -z "$TIMEOUT" ] || [ "$TIMEOUT" = '0' ]; then
+  echo "Starting VPN with no timeout"
+  cmd=openvpn
+else
+  echo "Starting VPN with timeout $TIMEOUT"
+  cmd="timeout $TIMEOUT openvpn"
+fi
+
+echo "user: $VPN_USER and file: $VPN_FILE"
+
+# Start openvpn and show the command
 set -v
-timeout $TIMEOUT openvpn \
+$cmd \
   $OPENVPN_ARGS \
   --config "$VPN_FILE" \
   --script-security 2 \
@@ -53,9 +63,19 @@ timeout $TIMEOUT openvpn \
   --persist-tun \
   --auth-user-pass <(echo -e "$VPN_USER\n$VPN_PASS")
 
+# We should never reach this if we're not in interactive mode
+if [ ! "$SHELL" ]; then
+  exit 1
+fi
+
 # Wait until VPN says we're up
-while [ ! -f /up ]; do
-  sleep 1
+for i in {1..60}; do
+  echo "Waiting for vpn $i"
+  if [ ! -f /up ]; then
+    sleep 1
+  else
+    break
+  fi
 done
 
 echo -n "Up at: "
