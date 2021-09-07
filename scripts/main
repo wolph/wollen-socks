@@ -38,18 +38,17 @@ echo "PRIVATE_NET=$PRIVATE_NET" > /env
 /sbin/ip -o -4 route show to default > /default_route
 
 if [ -z "$TIMEOUT" ] || [ "$TIMEOUT" = '0' ]; then
-  echo "Starting VPN with no timeout"
-  cmd=openvpn
+  echo "Starting VPN with no timeout (10 years)"
+  TIMEOUT=3650d
 else
   echo "Starting VPN with timeout $TIMEOUT"
-  cmd="timeout $TIMEOUT openvpn"
 fi
 
 echo "user: $VPN_USER and file: $VPN_FILE"
 
 # Start openvpn and show the command
 set -v
-$cmd \
+timeout $TIMEOUT openvpn \
   $OPENVPN_ARGS \
   --config "$VPN_FILE" \
   --script-security 2 \
